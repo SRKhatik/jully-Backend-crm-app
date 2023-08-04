@@ -62,6 +62,16 @@ const login = async (req, res) => {
     //syntac of jwt token payload header and secrate key
     const token = jwt.sign({ id: userId }, process.env.SECRET, { expiresIn: "1h" });
     console.log(token)
+
+    return res.status(200).send({
+      name:user.name,
+      userId:user.userId,
+      email:user.email,
+      userType:user.userType,
+      userStatus:user.userStatus,
+      accessToken:token
+    })
+
   } catch {
     return res.status(500).send({ message: err.message });
   }
