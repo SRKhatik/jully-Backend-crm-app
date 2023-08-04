@@ -4,7 +4,7 @@ const userStatus={
     rejected:"REJECTED"
 }
 const userType={
-    cutomer:"CUSTOMER",
+    customer:"CUSTOMER",
     engineer:"ENGINEER",
     admin:"ADMIN"
 }
