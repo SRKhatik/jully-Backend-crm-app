@@ -14,8 +14,9 @@ const register = (req, res) => {
     userStatus:
       userType === userType.customer ? userStatus.approved : userStatus.pending,
   };
-  const newUser = new userModel(user);
 
+
+  const newUser = new userModel(user);
   newUser
     .save()
     .then((data) => {
@@ -32,6 +33,39 @@ const register = (req, res) => {
     });
 };
 
+
+
+//logIn function 
+
+const login = async (req, res) => {
+  console.log(req.body);
+
+  const { userId, password } = req.body;
+
+  if(!userId || !password){
+    return res.status(400).send({message:"UserId/Password is not passed"})
+  }
+
+  try{
+
+    //for the userId 
+    const user = await userModel.findOne({userId:userId});
+    if(!user){
+      return res.status(404).send({message:`userId:${userId} is invalid `})
+    }
+
+    //for the password syntace take on bcrypt documentaion 
+    const isPasswordValid =bcrypt.compareSync(password,user.password);
+
+    if(!isPasswordValid){
+      return res.status(404).send({message:"invalid Password"})
+    }
+  }
+  catch{
+    return res.status(500).send({message:err.message})
+  }
+};
 module.exports = {
   register,
+  login,
 };
